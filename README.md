@@ -1,2 +1,142 @@
 # MYFINALS
 MY FINALS 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple Online Store</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
+header { background: #333; color: white; padding: 15px; text-align: center; }
+.products { display: flex; justify-content: space-around; margin: 20px; flex-wrap: wrap; }
+.product { background: white; border: 1px solid #ccc; border-radius: 8px; width: 220px; margin: 10px; padding: 10px;
+text-align: center; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+.product img { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; }
+.cart, .order-form { margin: 20px; padding: 10px; background: #fff; border: 1px solid #ccc; border-radius: 8px; }
+label { display: block; margin-top: 10px; }
+input, textarea, select, button { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+button { background: #28a745; color: white; border: none; margin-top: 10px; cursor: pointer; }
+button:hover { background: #218838; }
+</style>
+</head>
+<body>
+<header>
+<h1>My Online Store</h1>
+<p>Welcome! Select products and place your order.</p>
+</header>
+
+<section class="products">
+  <div class="product">
+    <img src="C:\Users\UDMCL03-38\OneDrive\Desktop\sleeping pills.webp" alt="Product 1">
+    <h3>Capsule</h3>
+    <p>₱600.00</p>
+    <button onclick="addToCart('Capsule', 2000)">Add to Cart</button>
+  </div>
+  <div class="product">
+    <img src="C:\Users\UDMCL03-38\OneDrive\Desktop\stock-photo-white-capsule-medical-pills-189909296.jpg" alt="Product 2">
+    <h3>Tablets</h3>
+    <p>₱1,799</p>
+    <button onclick="addToCart('Tablets', 1799)">Add to Cart</button>
+  </div>
+
+<div class="product">
+    <img src="C:\Users\UDMCL03-38\OneDrive\Desktop\cherry-lime-sour-gummy-candies.jpg" alt="Product 3">
+    <h3>Melatonin gummies</h3>
+    <p>₱3000</p>
+    <button onclick="addToCart('Melatonin Gummies', 3000)">Add to Cart</button>
+  </div>
+
+<div class="product">
+    <img src="C:\Users\UDMCL03-38\OneDrive\Desktop\Bottle-Medicine-syrup-shutterstock.webp" alt="Product 4">
+    <h3>Sleeping Syrup</h3>
+    <p>₱1500</p>
+    <button onclick="addToCart('Sleeping Syrup', 1500)">Add to Cart</button>
+  </div>
+</section>
+
+<section class="cart">
+  <h2>Shopping Cart</h2>
+  <ul id="cart-items"></ul>
+  <p><strong>Total: ₱<span id="cart-total">0</span></strong></p>
+</section>
+
+<section class="order-form">
+  <h2>Order Form</h2>
+  <form onsubmit="submitOrder(event)">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="text" id="phone" required>
+
+    <label for="address">Shipping Address</label>
+    <textarea id="address" required></textarea>
+
+    <label for="payment">Payment Method</label>
+    <select id="payment">
+      <option value="COD">Cash on Delivery</option>
+      <option value="GCash">GCash</option>
+      <option value="Bank">Bank Transfer</option>
+    </select>
+
+    <button type="submit">Submit Order</button>
+  </form>
+</section>
+
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(product, price) {
+  cart.push({ product, price });
+  total += price;
+  displayCart();
+}
+
+function displayCart() {
+  const cartItems = document.getElementById('cart-items');
+  cartItems.innerHTML = '';
+  cart.forEach(item => {
+    let li = document.createElement('li');
+    li.textContent = item.product + ' - ₱' + item.price;
+    cartItems.appendChild(li);
+  });
+  document.getElementById('cart-total').textContent = total;
+}
+
+function submitOrder(event) {
+  event.preventDefault();
+
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const address = document.getElementById('address').value;
+  const payment = document.getElementById('payment').value;
+
+  const orderSummary = cart.map(item => "- " + item.product + " ₱" + item.price).join("\n");
+
+  alert(
+    "Thank you, " + name + "!\n\nOrder Summary:\n" +
+    orderSummary +
+    "\n\nTotal: ₱" + total +
+    "\nPayment Method: " + payment +
+    "\n\nYour order will be shipped to:\n" + address
+  );
+
+  // Clear cart and form
+  cart = [];
+  total = 0;
+  displayCart();
+  document.querySelector("form").reset();
+}
+</script>
+</body>
+</html>
